@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 //import 'rxjs/Rx';
-import { Employee } from './employee.model'
+import { Employee } from './employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +19,16 @@ export class EmployeeService {
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });
     return this.http.post('http://localhost:47560/api/Employees', body, requestOptions).map(x => x.json());
+
   }
 
-  putEmployee(id, emp) {
+  putEmployee(id: number, emp: Employee) {
     var body = JSON.stringify(emp);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
     return this.http.put('http://localhost:47560/api/Employees/' + id,
       body,
-      requestOptions).map(res => res.json());
+      requestOptions).map(res => res);
   }
 
   getEmployeeList() {
@@ -37,6 +38,14 @@ export class EmployeeService {
       }).toPromise().then(x => {
         this.employeeList = x;
       })
+
+    // this.http.get('http://localhost:47560/api/Employees')
+    // .map((data: Response) => {
+    //   return data.json() as Employee[];
+    // }).subscribe(x => {
+    //   this.employeeList = x;
+    // })
+
   }
 
   deleteEmployee(id: number) {
